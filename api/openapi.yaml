@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Headless CMS
+  version: 0.0.1
+paths:
+  /articles:
+    get:
+      summary: get list of articles
+      responses:
+        200:
+          $ref: "#/components/responses/list_article"
+components:
+  responses:
+    list_article:
+      description: list of article
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              articles:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          example: fe942da4-aa44-4471-8f14-5a7d56370769
+          readOnly: true
+        sku:
+          type: string
+          example: article1
+        title:
+          type: string
+          example: article
+        is_draft:
+          type: boolean
+          readOnly: true
+        contents:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/TextContent"
+              - $ref: "#/components/schemas/ListContent"
+      required:
+        - id
+        - title
+        - is_draft
+        - contents
+    TextContent:
+      properties:
+        name:
+          type: string
+          example: article_content
+        component:
+          $ref: "#/components/schemas/Component"
+        text:
+          type: string
+      required:
+        - key
+        - component
+        - text
+    ListContent:
+      properties:
+        name:
+          type: string
+          example: article_content
+        component:
+          $ref: "#/components/schemas/Component"
+        values:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+        - component
+        - values
+    Component:
+      type: string
+      enum:
+        - short_text
+        - long_text
