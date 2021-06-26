@@ -10,7 +10,7 @@ paths:
         200:
           $ref: "#/components/responses/list_article"
         500:
-          $ref: "#/components/responses/error"
+          $ref: "#/components/responses/error_response"
 components:
   responses:
     list_article:
@@ -24,7 +24,7 @@ components:
                 type: array
                 items:
                   $ref: "#/components/schemas/Article"
-    error:
+    error_response:
       description: error response
       content:
         application/json:
