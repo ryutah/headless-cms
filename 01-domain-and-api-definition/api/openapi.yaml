@@ -9,6 +9,8 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/list_article"
+        500:
+          $ref: "#/components/responses/error"
 components:
   responses:
     list_article:
@@ -22,6 +24,12 @@ components:
                 type: array
                 items:
                   $ref: "#/components/schemas/Article"
+    error:
+      description: error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   schemas:
     Article:
       type: object
@@ -83,3 +91,17 @@ components:
       enum:
         - short_text
         - long_text
+    Error:
+      type: object
+      properties:
+        code:
+          $ref: "#/components/schemas/ErrorCode"
+        message:
+          type: string
+      required:
+        - code
+        - message
+    ErrorCode:
+      type: string
+      enum:
+        - server_error
