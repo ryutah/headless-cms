@@ -1,0 +1,45 @@
+@startuml headless_cms
+
+skinparam class {
+  BackgroundColor<<Entity>> pink
+  BackgroundColor<<Value>> palegreen
+  BackgroundColor<<Service>> cyan
+  BackgroundColor<<Repository>> yellow
+}
+hide circle
+
+class Article<<Entity>> {
+  + id string
+  + title string
+  + is_draft boolean
+  + contents list<ArticleContent>
+  + created_at datetime
+  + updated_at datetime
+  + static Article new(id, title, components)
+  + static Article new_draft(id, title, components)
+  + to_publish()
+  + to_draft()
+  + publish_imeediately()
+}
+Article *- ArticleContent
+
+interface ArticleContent {
+  + component() string
+  + key() string
+}
+
+class TextContent<<Value>> {
+  - component string
+  - key string
+  - text string
+}
+TextContent --|> ArticleContent
+
+class ListContent<<Value>> {
+  - component string
+  - key string
+  - items list<string>
+}
+ListContent --|> ArticleContent
+
+@enduml
